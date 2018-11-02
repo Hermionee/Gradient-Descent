@@ -39,3 +39,25 @@ def visualize(matrix):
     plt.colorbar(img, cmap=cmap,
                  norm=norm, boundaries=bounds, ticks=[-5, 0, 5])
     plt.show()
+
+
+# Split data into training and testing
+def split_data(data, ratio, n_splits):
+    data = data.reindex(np.random.permutation(data.index))
+    data_length = len(data)
+    length = data_length / n_splits
+    columns = len(data.columns)
+    training_testing_pairs = []
+    train_size = int(length * ratio)
+    test_size = int(length * (1 - ratio))
+    train_fraction = train_size / data_length
+    for i in range(n_splits):
+        train = data.sample(frac=train_size / len(data), random_state=200)
+        data = data.drop(train.index)
+        test = data.sample(frac=(test_size / len(data)), random_state=200)
+        data = data.drop(test.index)
+        if i == (n_splits - 1):
+            print(len(data))
+            test = test.append(data)
+        training_testing_pairs.append([train, test])
+    return training_testing_pairs

@@ -8,8 +8,14 @@ class MovieRecommendationSystemSGD(object):
 if __name__ == '__main__':
     file_name = "movie_ratings.csv"
     movie_ratings = Utilities.load_data(file_name)
-    # training, testing, validation = k-fold method that is not yet implemented.
-    movie_matrix = Utilities.create_matrix(movie_ratings)
+
+    # This is the code for the k fold cross validation, note that you have to add your prediction functions calls inside the
+    # loop, because every iteration is going to be on a new training/testing set.
+    cross_validation_set = Utilities.split_data(data=movie_ratings, ratio=0.75, n_splits=5)
+    for training, testing in cross_validation_set:
+        # use the matrix for your prediction functions calls if you like.
+        training_matrix = Utilities.create_matrix(training)
+        testing_matrix = Utilities.create_matrix(testing)
 
 """
 def SGD(data):

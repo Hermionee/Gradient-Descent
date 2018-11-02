@@ -1,4 +1,3 @@
-import random as rnd
 from operator import itemgetter
 
 import numpy as np
@@ -6,22 +5,6 @@ import pandas as pd
 from scipy.spatial.distance import cosine
 
 import Utilities
-
-
-# Split data into training and testing
-def split_data(data, ratio):
-    length = len(data)
-    train_size = int(length * ratio)
-    columns = len(data.columns)
-
-    training = np.zeros(shape=[train_size, columns])
-    testing = data.copy()
-    k = 1
-    while k <= train_size:
-        i = rnd.randrange(len(testing))
-        training[k - 1:k] = (testing.pop(i))
-
-    return [training, testing]
 
 
 class MovieRecommendationSystemCF(object):
@@ -105,9 +88,12 @@ class MovieRecommendationSystemCF(object):
 if __name__ == '__main__':
     file_name = "movie_ratings.csv"
     movie_ratings = Utilities.load_data(file_name)
-    # training, testing, validation = split_data()
     print(movie_ratings.head())
 
-    # movie_recommendation_sys = MovieRecommendationSystemCF(movie_ratings)
-
-    # visualize(np.array(movie_recommendation_sys.ratings_matrix))
+    cross_validation_set = Utilities.split_data(data=movie_ratings, ratio=0.75, n_splits=5)
+    for training, testing in cross_validation_set:
+        # use the matrix for your prediction functions calls if you like.
+        training_matrix = Utilities.create_matrix(training)
+        testing_matrix = Utilities.create_matrix(testing)
+        Utilities.visualize(np.array(training_matrix))
+        # movie_recommendation_sys = MovieRecommendationSystemCF(training_matrix)
