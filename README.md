@@ -11,4 +11,7 @@ Each algorithm starts with initial weight vector(zero). From the above figures, 
 
 
 From the results above, we see that except the adaptive methods, the other techniques work pretty fast and stable. This means that, still, the small feature space prevents the adaptive methods from performing themselves. To zoom in the first 50 iterations, we get the following result.
+![alt text](https://github.com/Hermionee/Gradient-Descent/blob/master/figures/breast_50_ce.png)
+![alt text](https://github.com/Hermionee/Gradient-Descent/blob/master/figures/breast_50_mse.png)
 
+From the first 50 iterations, we can see that Adagrad, RMSprop and Adadelta still works slowly while others converge really fast. And SGDM and Adam outperms GD and SGD because the gradient now is in normal range (unlike in the previous dataset). And because both loss functions are convex, no techniques get stuck in the local minima.
